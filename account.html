@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | Giftopia</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header-component"></div>
+
+    <main class="section">
+        <div class="container">
+            <div class="account-container">
+                <!-- Dashboard for logged in users -->
+                <div id="account-dashboard" class="account-dashboard" style="display: none;">
+                    <div class="dashboard-header">
+                        <h1>My Account</h1>
+                        <button class="btn outline" onclick="logout()">Logout</button>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <div class="card-icon">👤</div>
+                            <h3>Profile</h3>
+                            <p>Update your personal information</p>
+                            <button class="btn primary" onclick="showSection('profile')">Edit Profile</button>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-icon">📦</div>
+                            <h3>Orders</h3>
+                            <p>View your order history</p>
+                            <button class="btn primary" onclick="window.location.href='my-orders.html'">View
+                                Orders</button>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-icon">📍</div>
+                            <h3>Addresses</h3>
+                            <p>Manage delivery addresses</p>
+                            <button class="btn primary" onclick="showSection('addresses')">Manage</button>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-icon">🔒</div>
+                            <h3>Security</h3>
+                            <p>Change password</p>
+                            <button class="btn primary" onclick="showSection('security')">Update</button>
+                        </div>
+                    </div>
+
+                    <!-- Profile Section -->
+                    <div id="profile-section" class="account-section" style="display: none;">
+                        <h2>Edit Profile</h2>
+                        <form id="profile-form" class="account-form">
+                            <div class="form-row two">
+                                <div>
+                                    <label>First Name</label>
+                                    <input type="text" id="first-name" required>
+                                </div>
+                                <div>
+                                    <label>Last Name</label>
+                                    <input type="text" id="last-name" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label>Email</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-row">
+                                <label>Phone Number</label>
+                                <input type="tel" id="phone">
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn primary">Save Changes</button>
+                                <button type="button" class="btn" onclick="hideSections()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Addresses Section -->
+                    <div id="addresses-section" class="account-section" style="display: none;">
+                        <h2>My Addresses</h2>
+                        <div id="addresses-list">
+                            <!-- Addresses will be loaded here -->
+                        </div>
+                        <button class="btn primary" onclick="showAddAddress()">Add New Address</button>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div id="security-section" class="account-section" style="display: none;">
+                        <h2>Change Password</h2>
+                        <form id="password-form" class="account-form">
+                            <div class="form-row">
+                                <label>Current Password</label>
+                                <input type="password" id="current-password" required>
+                            </div>
+                            <div class="form-row">
+                                <label>New Password</label>
+                                <input type="password" id="new-password" required minlength="6">
+                            </div>
+                            <div class="form-row">
+                                <label>Confirm New Password</label>
+                                <input type="password" id="confirm-password" required minlength="6">
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn primary">Update Password</button>
+                                <button type="button" class="btn" onclick="hideSections()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Login/Signup for guests -->
+                <div id="auth-forms" class="auth-forms">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="login">Login</button>
+                        <button class="tab" data-tab="signup">Sign Up</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <div id="login-tab" class="tab-content active">
+                        <form id="login-form" class="auth-form">
+                            <div class="form-row">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" required>
+                            </div>
+                            <div class="form-row">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" required>
+                                <div class="password-toggle">
+                                    <button type="button" class="toggle-password">👁️</button>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <input type="checkbox" id="remember-me"> Remember me
+                                </label>
+                                <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
+                            </div>
+                            <div class="form-row">
+                                <button type="submit" class="btn primary">Login</button>
+                            </div>
+                            <div class="divider">
+                                <span>or continue with</span>
+                            </div>
+                            <div class="social-login">
+                                <button type="button" class="btn google">
+                                    <span class="icon">G</span> Google
+                                </button>
+                                <button type="button" class="btn facebook">
+                                    <span class="icon">f</span> Facebook
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Signup Form -->
+                    <div id="signup-tab" class="tab-content">
+                        <form id="signup-form" class="auth-form">
+                            <div class="form-row two">
+                                <div>
+                                    <label for="signup-firstname">First Name</label>
+                                    <input type="text" id="signup-firstname" required>
+                                </div>
+                                <div>
+                                    <label for="signup-lastname">Last Name</label>
+                                    <input type="text" id="signup-lastname" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="signup-email">Email Address</label>
+                                <input type="email" id="signup-email" required>
+                            </div>
+                            <div class="form-row">
+                                <label for="signup-phone">Phone Number</label>
+                                <input type="tel" id="signup-phone">
+                            </div>
+                            <div class="form-row">
+                                <label for="signup-password">Password</label>
+                                <input type="password" id="signup-password" required minlength="6">
+                            </div>
+                            <div class="form-row">
+                                <label for="signup-confirm">Confirm Password</label>
+                                <input type="password" id="signup-confirm" required minlength="6">
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <input type="checkbox" id="terms" required>
+                                    I agree to the <a href="terms.html">Terms of Service</a> and <a
+                                        href="privacy.html">Privacy Policy</a>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <input type="checkbox" id="newsletter">
+                                    Subscribe to our newsletter
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <button type="submit" class="btn primary">Create Account</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-component"></div>
+
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- Component Loader Script -->
+    <script>
+        async function loadComponent(componentId, componentPath) {
+            try {
+                const response = await fetch(componentPath);
+                if (!response.ok) throw new Error(`Failed to load ${componentPath}`);
+                const html = await response.text();
+                document.getElementById(componentId).innerHTML = html;
+
+                if (componentId === 'header-component' && window.auth) {
+                    auth.updateHeaderUI();
+                    const logoutBtn = document.getElementById('logout-btn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            if (window.auth && typeof window.auth.logout === 'function') {
+                                window.auth.logout();
+                            } else if (typeof logout === 'function') {
+                                logout();
+                            }
+                        });
+                    }
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount();
+                    }
+                }
+            } catch (error) {
+                console.error(`Error loading component ${componentPath}:`, error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            await loadComponent('header-component', 'components/header.html');
+            await loadComponent('footer-component', 'components/footer.html');
+        });
+    </script>
+
+    <script src="assets/js/account.js"></script>
+</body>
+
+</html>

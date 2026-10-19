@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Giftopia</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header-component"></div>
+
+    <main class="section">
+        <div class="container">
+            <div id="product-detail">
+                <!-- Product loaded by JavaScript -->
+            </div>
+
+            <!-- Related Products -->
+            <div class="related-products">
+                <h2>You May Also Like</h2>
+                <div class="grid grid-3" id="related-products">
+                    <!-- Related products loaded by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-component"></div>
+
+    <!-- Load auth.js first so it's available for components -->
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- Component Loader Script -->
+    <script>
+        // Function to load component HTML
+        async function loadComponent(componentId, componentPath) {
+            try {
+                const response = await fetch(componentPath);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${componentPath}`);
+                }
+                const html = await response.text();
+                document.getElementById(componentId).innerHTML = html;
+
+                // After header loads, update authentication UI
+                if (componentId === 'header-component' && window.auth) {
+                    auth.updateHeaderUI();
+
+                    // Attach logout button event listener
+                    const logoutBtn = document.getElementById('logout-btn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            if (window.auth && typeof window.auth.logout === 'function') {
+                                window.auth.logout();
+                            } else if (typeof logout === 'function') {
+                                logout();
+                            }
+                        });
+                    }
+
+                    // Update cart badge
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount();
+                    }
+                }
+            } catch (error) {
+                console.error(`Error loading component ${componentPath}:`, error);
+            }
+        }
+
+        // Load all components when DOM is ready
+        document.addEventListener('DOMContentLoaded', async function () {
+            await loadComponent('header-component', 'components/header.html');
+            await loadComponent('footer-component', 'components/footer.html');
+        });
+    </script>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/product.js"></script>
+</body>
+
+</html>

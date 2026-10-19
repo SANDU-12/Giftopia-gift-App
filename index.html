@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giftopia | Personalized Gifts for Every Occasion</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <style>
+        /* Enhanced Categories Section Styles */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .category-tile {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .category-tile:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-tile img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .category-tile:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-tile-content {
+            padding: 1.5rem;
+        }
+
+        .category-tile h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .category-tile p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Enhanced Featured Products Styles */
+        .featured-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .pc-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .pc-body h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .pc-desc {
+            margin: 0 0 1rem 0;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .pc-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .tag {
+            padding: 0.35rem 0.85rem;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .pc-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .pc-actions .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .pc-actions .btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .pc-actions .btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .pc-actions .btn.outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .pc-actions .btn.outline:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Enhanced Occasions Section Styles */
+        .occasions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .occasion-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+        }
+
+        .occasion-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .occasion-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .occasion-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .occasion-card-content {
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: white;
+        }
+
+        .occasion-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .occasion-card p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.95;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .chip {
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .chip:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Loading States */
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .products-loading,
+        .categories-loading,
+        .occasions-loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Section Headers */
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-head h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .section-head .link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .section-head .link:hover {
+            color: #764ba2;
+        }
+
+        .section-head .link::after {
+            content: " →";
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+
+            .categories-grid,
+            .featured-products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1.25rem;
+            }
+
+            .occasions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-head h2 {
+                font-size: 1.75rem;
+            }
+
+            .pc-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .categories-grid,
+            .featured-products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chips {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Component -->
+    <div id="header-component"></div>
+
+    <!-- Hero Component -->
+    <div id="hero-component"></div>
+
+    <!-- Categories Section -->
+    <section class="section categories">
+        <div class="container">
+            <div class="section-head">
+                <h2>Shop by Category</h2>
+                <a href="categories.html" class="link">View All</a>
+            </div>
+            <div class="categories-grid" id="categories-grid">
+                <div class="categories-loading">Loading categories...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="section alt">
+        <div class="container">
+            <div class="section-head">
+                <h2>Featured Products</h2>
+                <a href="products.html" class="link">View All Products</a>
+            </div>
+            <div class="featured-products-grid" id="featured-products">
+                <div class="products-loading">Loading featured products...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Occasions Section -->
+    <section class="section occasions">
+        <div class="container">
+            <div class="section-head">
+                <h2>Gifts for Every Occasion</h2>
+            </div>
+            <div class="chips">
+                <a href="products.html?occasion=Birthday" class="chip">🎂 Birthday</a>
+                <a href="products.html?occasion=Anniversary" class="chip">💕 Anniversary</a>
+                <a href="products.html?occasion=Graduation" class="chip">🎓 Graduation</a>
+                <a href="products.html?occasion=Thank%20You" class="chip">🙏 Thank You</a>
+                <a href="products.html?occasion=Wedding" class="chip">💍 Wedding</a>
+                <a href="products.html?occasion=Christmas" class="chip">🎄 Christmas</a>
+            </div>
+            <div class="occasions-grid" id="occasions-grid">
+                <div class="occasions-loading">Loading occasions...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Component -->
+    <div id="footer-component"></div>
+
+    <!-- Load auth.js first so it's available for components -->
+    <script src="assets/js/auth.js"></script>
+    <!-- Load categories module -->
+    <script src="assets/js/categories.js"></script>
+
+    <!-- Component Loader Script -->
+    <script>
+        // Function to load component HTML
+        async function loadComponent(componentId, componentPath) {
+            try {
+                const response = await fetch(componentPath);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${componentPath}`);
+                }
+                const html = await response.text();
+                document.getElementById(componentId).innerHTML = html;
+
+                // After header loads, update authentication UI
+                if (componentId === 'header-component' && window.auth) {
+                    auth.updateHeaderUI();
+
+                    // Attach logout button event listener
+                    const logoutBtn = document.getElementById('logout-btn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            // Use auth.logout() if available, otherwise use main.js logout()
+                            if (window.auth && typeof window.auth.logout === 'function') {
+                                window.auth.logout();
+                            } else if (typeof logout === 'function') {
+                                logout();
+                            }
+                        });
+                    }
+
+                    // Update cart badge
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount();
+                    }
+                }
+            } catch (error) {
+                console.error(`Error loading component ${componentPath}:`, error);
+            }
+        }
+
+        // Enhanced function to load categories from database
+        async function loadCategoriesEnhanced() {
+            const categoriesGrid = document.getElementById('categories-grid');
+
+            try {
+                // Use CategoriesAPI to fetch categories from database
+                const categories = await CategoriesAPI.getAll();
+
+                if (categories && categories.length > 0) {
+                    // Display first 8 categories on homepage
+                    const categoriesToShow = categories.slice(0, 8);
+
+                    categoriesGrid.innerHTML = categoriesToShow.map(category => `
+                        <a href="products.html?category=${encodeURIComponent(category.slug || category.name)}" class="category-tile">
+                            <img src="${category.image || 'assets/images/default-category.jpg'}" 
+                                 alt="${CategoriesRenderer.escapeHtml(category.name)}"
+                                 onerror="this.src='assets/images/default-category.jpg'">
+                            <div class="category-tile-content">
+                                <h3>${CategoriesRenderer.escapeHtml(category.name)}</h3>
+                                <p>${category.product_count > 0 ? category.product_count + ' products' : 'Browse our collection'}</p>
+                            </div>
+                        </a>
+                    `).join('');
+                } else {
+                    categoriesGrid.innerHTML = '<div class="no-data"><p>No categories available</p></div>';
+                }
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                categoriesGrid.innerHTML = '<div class="no-data"><p>Unable to load categories</p></div>';
+            }
+        }
+
+        // Enhanced function to load featured products with better layout
+        async function loadFeaturedProductsEnhanced() {
+            const productsGrid = document.getElementById('featured-products');
+
+            try {
+                const response = await fetch('api/products.php?action=getFeatured');
+                const data = await response.json();
+
+                if (data.success && data.products && data.products.length > 0) {
+                    productsGrid.innerHTML = data.products.slice(0, 6).map(product => `
+                        <div class="product-card">
+                            <img src="${product.image}" alt="${product.name}" onerror="this.src='assets/images/default-product.jpg'">
+                            <div class="pc-body">
+                                <h3>${product.name}</h3>
+                                <p class="pc-desc">${product.description ? product.description.substring(0, 100) + '...' : 'Discover this amazing gift'}</p>
+                                <div class="pc-meta">
+                                    <div class="price">Rs. ${parseFloat(product.price).toFixed(2)}</div>
+                                    <span class="tag">${product.category_name || 'Gift'}</span>
+                                </div>
+                                <div class="pc-actions">
+                                    <button class="btn primary" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')">
+                                        Add to Cart
+                                    </button>
+                                    <a href="product.html?id=${product.id}" class="btn outline">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    productsGrid.innerHTML = '<div class="no-data"><p>No featured products available</p></div>';
+                }
+            } catch (error) {
+                console.error('Error loading featured products:', error);
+                productsGrid.innerHTML = '<div class="no-data"><p>Unable to load products</p></div>';
+            }
+        }
+
+        // Load occasions section
+        function loadOccasions() {
+            const occasionsGrid = document.getElementById('occasions-grid');
+
+            const occasions = [
+                { name: 'Birthday Gifts', description: 'Make their day extra special', image: 'assets/images/birthday-gift.jpg', occasion: 'Birthday' },
+                { name: 'Anniversary Gifts', description: 'Celebrate love and memories', image: 'assets/images/anniversary-gift.jpg', occasion: 'Anniversary' },
+                { name: 'Graduation Gifts', description: 'Congratulate their achievement', image: 'assets/images/graduation-gift.jpg', occasion: 'Graduation' },
+                { name: 'Wedding Gifts', description: 'Bless their new beginning', image: 'assets/images/wedding-gift.jpg', occasion: 'Wedding' },
+                { name: 'Thank You Gifts', description: 'Show your appreciation', image: 'assets/images/thankyou-gift.jpg', occasion: 'Thank%20You' },
+                { name: 'Christmas Gifts', description: 'Spread holiday cheer', image: 'assets/images/christmas-gift.jpg', occasion: 'Christmas' }
+            ];
+
+            occasionsGrid.innerHTML = occasions.map(occasion => `
+                <a href="products.html?occasion=${occasion.occasion}" class="occasion-card">
+                    <img src="${occasion.image}" alt="${occasion.name}" onerror="this.src='assets/images/default-occasion.jpg'">
+                    <div class="occasion-card-content">
+                        <h3>${occasion.name}</h3>
+                        <p>${occasion.description}</p>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Load all components when DOM is ready
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Load components in sequence
+            await loadComponent('header-component', 'components/header.html');
+            await loadComponent('hero-component', 'components/hero.html');
+            await loadComponent('footer-component', 'components/footer.html');
+
+            // Load content sections
+            loadCategoriesEnhanced();
+            loadFeaturedProductsEnhanced();
+            loadOccasions();
+        });
+    </script>
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

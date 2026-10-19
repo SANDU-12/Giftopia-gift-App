@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Giftopia | Products</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" type="image/png" href="01.png">
+</head>
+
+<body>
+    <div id="header-component"></div>
+
+    <main class="with-sidebar">
+        <aside class="sidebar">
+            <h2>Filters</h2>
+            <form class="filters" id="filter-form">
+                <!-- Category Filter -->
+                <div class="filter-block">
+                    <h3>Category</h3>
+                    <div id="category-filters">
+                        <!-- Dynamically loaded from API -->
+                    </div>
+                </div>
+
+                <!-- Occasion Filter -->
+                <div class="filter-block">
+                    <h3>Occasion</h3>
+                    <div id="occasion-filters">
+                        <!-- Dynamically loaded from API -->
+                    </div>
+                </div>
+
+                <!-- Price Filter -->
+                <div class="filter-block">
+                    <h3>Price Range</h3>
+                    <label><input type="radio" name="price" value="0-1000"> Under Rs.1000</label>
+                    <label><input type="radio" name="price" value="1000-5000"> Rs.1000 - Rs.5000</label>
+                    <label><input type="radio" name="price" value="5000-10000"> Rs.5000 - Rs.10000</label>
+                    <label><input type="radio" name="price" value="10000+"> Over Rs.10000</label>
+                    <label><input type="radio" name="price" value="all" checked> All Prices</label>
+                </div>
+
+                <!-- Sort Options -->
+                <div class="filter-block">
+                    <h3>Sort By</h3>
+                    <select id="sort-by" class="sort-select">
+                        <option value="newest">Newest First</option>
+                        <option value="price_low">Price: Low to High</option>
+                        <option value="price_high">Price: High to Low</option>
+                        <option value="name">Name A-Z</option>
+                    </select>
+                </div>
+
+                <button type="button" id="clear-filters" class="btn">Clear Filters</button>
+            </form>
+        </aside>
+
+        <section class="section catalog">
+            <div class="container">
+                <div class="section-head">
+                    <h1>All Products</h1>
+                    <div class="results-info">
+                        <span id="results-count">Loading...</span>
+                    </div>
+                </div>
+
+                
+
+                <div class="grid grid-3" id="products-grid">
+                    <!-- Products loaded dynamically -->
+                    <div class="loading">Loading products...</div>
+                </div>
+
+                <div id="no-results" class="no-results" style="display: none;">
+                    <p>No products found matching your filters.</p>
+                    <button id="reset-filters" class="btn primary">Reset Filters</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-component"></div>
+
+    <!-- Load auth.js first so it's available for components -->
+    <script src="assets/js/auth.js"></script>
+
+    <!-- Component Loader Script -->
+    <script>
+        // Function to load component HTML
+        async function loadComponent(componentId, componentPath) {
+            try {
+                const response = await fetch(componentPath);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${componentPath}`);
+                }
+                const html = await response.text();
+                document.getElementById(componentId).innerHTML = html;
+
+                // After header loads, update authentication UI
+                if (componentId === 'header-component' && window.auth) {
+                    auth.updateHeaderUI();
+
+                    // Attach logout button event listener
+                    const logoutBtn = document.getElementById('logout-btn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            if (window.auth && typeof window.auth.logout === 'function') {
+                                window.auth.logout();
+                            } else if (typeof logout === 'function') {
+                                logout();
+                            }
+                        });
+                    }
+
+                    // Update cart badge
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount();
+                    }
+                }
+            } catch (error) {
+                console.error(`Error loading component ${componentPath}:`, error);
+            }
+        }
+
+        // Load all components when DOM is ready
+        document.addEventListener('DOMContentLoaded', async function () {
+            await loadComponent('header-component', 'components/header.html');
+            await loadComponent('footer-component', 'components/footer.html');
+        });
+    </script>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/products.js"></script>
+</body>
+
+</html>

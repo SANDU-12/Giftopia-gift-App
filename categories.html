@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Categories | Giftopia</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <style>
+        /* Categories page specific styles */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            margin: 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .categories-container {
+            padding: 3rem 0;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .category-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            contain: layout;
+        }
+
+        .category-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .category-card-content {
+            padding: 1.5rem;
+        }
+
+        .category-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .category-card p {
+            margin: 0 0 1rem 0;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .category-item-count {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .categories-loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .no-categories {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .no-categories h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+        }
+
+        .back-link::before {
+            content: "← ";
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 2rem 0;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Component -->
+    <div id="header-component"></div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>All Categories</h1>
+            <p>Explore our complete collection of gift categories</p>
+        </div>
+        
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-container">
+        <div class="container">
+            <a href="index.html" class="back-link">Back to Home</a>
+            <div class="categories-grid" id="all-categories-grid">
+                <div class="categories-loading">Loading all categories...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Component -->
+    <div id="footer-component"></div>
+
+    <!-- Load auth.js first -->
+    <script src="assets/js/auth.js"></script>
+    <!-- Load categories module -->
+    <script src="assets/js/categories.js"></script>
+
+    <!-- Component Loader Script -->
+    <script>
+        // Function to load component HTML
+        async function loadComponent(componentId, componentPath) {
+            try {
+                const response = await fetch(componentPath);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${componentPath}`);
+                }
+                const html = await response.text();
+                document.getElementById(componentId).innerHTML = html;
+
+                // After header loads, update authentication UI
+                if (componentId === 'header-component' && window.auth) {
+                    auth.updateHeaderUI();
+
+                    // Attach logout button event listener
+                    const logoutBtn = document.getElementById('logout-btn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            if (window.auth && typeof window.auth.logout === 'function') {
+                                window.auth.logout();
+                            } else if (typeof logout === 'function') {
+                                logout();
+                            }
+                        });
+                    }
+
+                    // Update cart badge
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount();
+                    }
+                }
+            } catch (error) {
+                console.error(`Error loading component ${componentPath}:`, error);
+            }
+        }
+
+        // Function to load and display all categories from database
+        async function loadAllCategories() {
+            const categoriesGrid = document.getElementById('all-categories-grid');
+
+            try {
+                // Fetch categories using the CategoriesAPI module
+                const categories = await CategoriesAPI.getAll();
+
+                if (categories && categories.length > 0) {
+                    // Use CategoriesRenderer to display the categories
+                    CategoriesRenderer.renderGrid(categories, 'all-categories-grid');
+                } else {
+                    // Show no categories message
+                    categoriesGrid.innerHTML = `
+                        <div class="no-categories">
+                            <h3>No categories available</h3>
+                            <p>Check back soon for new categories!</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                categoriesGrid.innerHTML = `
+                    <div class="no-categories">
+                        <h3>Unable to load categories</h3>
+                        <p>Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load components and categories when DOM is ready
+        document.addEventListener('DOMContentLoaded', async function () {
+            await loadComponent('header-component', 'components/header.html');
+            await loadComponent('footer-component', 'components/footer.html');
+            loadAllCategories();
+        });
+    </script>
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

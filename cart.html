@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Giftify | Cart & Checkout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+  <div id="header-component"></div>
+
+  <main class="section">
+    <div class="container checkout">
+      <section class="cart">
+        <h1>Your cart</h1>
+        <div id="cart-list" class="cart-list"></div>
+        <div id="empty-cart" style="display: none;">
+          <p>Your cart is empty.</p>
+          <a href="products.html" class="btn primary">Continue Shopping</a>
+        </div>
+        <div class="cart-summary" id="cart-summary">
+          <div class="row"><span>Subtotal</span><span id="cart-subtotal">Rs. 0.00</span></div>
+          <div class="row"><span>Shipping</span><span id="cart-shipping">Rs. 0.00</span></div>
+          <div class="row total"><span>Total</span><span id="cart-total">Rs. 0.00</span></div>
+        </div>
+      </section>
+
+      <section class="checkout-form">
+        <h2>Delivery & wrapping</h2>
+        <form id="checkout-form">
+          <div class="form-row two">
+            <div>
+              <label for="recipient-name">Recipient name</label>
+              <input id="recipient-name" type="text" placeholder="Full name" required>
+            </div>
+            <div>
+              <label for="recipient-phone">Phone</label>
+              <input id="recipient-phone" type="tel" placeholder="(000) 000-0000" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="delivery-address">Delivery address</label>
+            <input id="delivery-address" type="text" placeholder="Street, City, ZIP" required>
+          </div>
+
+          <div class="form-row two">
+            <div>
+              <label for="delivery-date">Delivery date</label>
+              <input id="delivery-date" type="date">
+            </div>
+            <div>
+              <label for="delivery-time">Delivery time</label>
+              <input id="delivery-time" type="time">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label><input id="gift-wrapping" type="checkbox"> Gift wrapping</label>
+          </div>
+
+          <div class="form-row">
+            <label for="gift-message">Gift message</label>
+            <textarea id="gift-message" rows="3" placeholder="Write a short note..."></textarea>
+          </div>
+
+          <div class="form-row">
+            <h3>Payment Method</h3>
+            <label><input type="radio" name="payment" value="cash_on_delivery" checked> Cash on Delivery</label>
+            <label><input type="radio" name="payment" value="card"> Credit/Debit Card (Online)</label>
+          </div>
+
+          <div class="form-row">
+            <button class="btn primary" type="button" id="place-order">Place order</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <div id="footer-component"></div>
+
+  <!-- Load auth.js first so it's available for components -->
+  <script src="assets/js/auth.js"></script>
+
+  <!-- Component Loader Script -->
+  <script>
+    // Function to load component HTML
+    async function loadComponent(componentId, componentPath) {
+      try {
+        const response = await fetch(componentPath);
+        if (!response.ok) {
+          throw new Error(`Failed to load ${componentPath}`);
+        }
+        const html = await response.text();
+        document.getElementById(componentId).innerHTML = html;
+
+        // After header loads, update authentication UI
+        if (componentId === 'header-component' && window.auth) {
+          auth.updateHeaderUI();
+
+          // Attach logout button event listener
+          const logoutBtn = document.getElementById('logout-btn');
+          if (logoutBtn) {
+            logoutBtn.addEventListener('click', function (e) {
+              e.preventDefault();
+              if (window.auth && typeof window.auth.logout === 'function') {
+                window.auth.logout();
+              } else if (typeof logout === 'function') {
+                logout();
+              }
+            });
+          }
+
+          // Update cart badge
+          if (typeof updateCartCount === 'function') {
+            updateCartCount();
+          }
+        }
+      } catch (error) {
+        console.error(`Error loading component ${componentPath}:`, error);
+      }
+    }
+
+    // Load all components when DOM is ready
+    document.addEventListener('DOMContentLoaded', async function () {
+      await loadComponent('header-component', 'components/header.html');
+      await loadComponent('footer-component', 'components/footer.html');
+    });
+  </script>
+  <script src="assets/js/main.js?v=3"></script>
+  <script src="assets/js/cart.js?v=3"></script>
+</body>
+
+</html>

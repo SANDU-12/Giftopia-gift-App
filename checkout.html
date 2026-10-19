@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Giftopia</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header-component"></div>
+
+    <main class="section">
+        <div class="container">
+            <div class="checkout-header">
+                <h1>Checkout</h1>
+                <div class="checkout-steps">
+                    <div class="step active">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Cart</span>
+                    </div>
+                    <div class="step active">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Delivery</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Payment</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Confirmation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkout-container">
+                <div class="checkout-main">
+                    <!-- Delivery Address -->
+                    <section class="checkout-section">
+                        <h2>Delivery Information</h2>
+                        <form id="delivery-form">
+                            <div class="form-row two">
+                                <div>
+                                    <label for="first-name">First Name *</label>
+                                    <input type="text" id="first-name" required>
+                                </div>
+                                <div>
+                                    <label for="last-name">Last Name *</label>
+                                    <input type="text" id="last-name" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-row">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+                            <div class="form-row">
+                                <label for="address">Delivery Address *</label>
+                                <textarea id="address" rows="3" required
+                                    placeholder="Street address, city, postal code"></textarea>
+                            </div>
+                            <div class="form-row two">
+                                <div>
+                                    <label for="delivery-date">Preferred Delivery Date *</label>
+                                    <input type="date" id="delivery-date" required>
+                                </div>
+                                <div>
+                                    <label for="delivery-time">Preferred Time</label>
+                                    <select id="delivery-time">
+                                        <option value="">Any Time</option>
+                                        <option value="09:00-12:00">Morning (9 AM - 12 PM)</option>
+                                        <option value="12:00-15:00">Afternoon (12 PM - 3 PM)</option>
+                                        <option value="15:00-18:00">Evening (3 PM - 6 PM)</option>
+                                        <option value="18:00-21:00">Night (6 PM - 9 PM)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Gift Options -->
+                    <section class="checkout-section">
+                        <h2>Gift Options</h2>
+                        <div class="gift-options">
+                            <div class="gift-option">
+                                <label>
+                                    <input type="checkbox" id="gift-wrapping">
+                                    <span class="option-label">Gift Wrapping (+Rs. 200)</span>
+                                    <span class="option-description">Elegant gift wrapping with ribbon and personalized
+                                        tag</span>
+                                </label>
+                            </div>
+                            <div class="gift-option">
+                                <label>
+                                    <input type="checkbox" id="gift-card">
+                                    <span class="option-label">Include Gift Card</span>
+                                    <span class="option-description">Add a personalized gift card with your
+                                        message</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="gift-message">Gift Message (Optional)</label>
+                            <textarea id="gift-message" rows="3"
+                                placeholder="Write a personal message for the recipient..."></textarea>
+                        </div>
+                    </section>
+
+                    <!-- Payment Method -->
+                    <section class="checkout-section">
+                        <h2>Payment Method</h2>
+                        <div class="payment-methods">
+                            <div class="payment-method">
+                                <label>
+                                    <input type="radio" name="payment" value="cod" checked>
+                                    <span class="method-label">Cash on Delivery</span>
+                                    <span class="method-description">Pay when you receive the order</span>
+                                </label>
+                            </div>
+                            <div class="payment-method">
+                                <label>
+                                    <input type="radio" name="payment" value="card">
+                                    <span class="method-label">Credit/Debit Card</span>
+                                    <span class="method-description">Pay securely with your card</span>
+                                </label>
+                            </div>
+                            <div class="payment-method">
+                                <label>
+                                    <input type="radio" name="payment" value="online">
+                                    <span class="method-label">Online Banking</span>
+                                    <span class="method-description">Pay via bank transfer</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Card Payment Form (hidden by default) -->
+                        <div id="card-payment-form" class="card-form" style="display: none;">
+                            <div class="form-row">
+                                <label for="card-number">Card Number</label>
+                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456">
+                            </div>
+                            <div class="form-row two">
+                                <div>
+                                    <label for="card-expiry">Expiry Date</label>
+                                    <input type="text" id="card-expiry" placeholder="MM/YY">
+                                </div>
+                                <div>
+                                    <label for="card-cvc">CVC</label>
+                                    <input type="text" id="card-cvc" placeholder="123">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="card-name">Name on Card</label>
+                                <input type="text" id="card-name" placeholder="John Doe">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="checkout-sidebar">
+                    <div class="order-summary">
+                        <h2>Order Summary</h2>
+                        <div class="order-items" id="checkout-items">
+                            <!-- Cart items will be loaded here -->
+                        </div>
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span id="summary-subtotal">Rs. 0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping</span>
+                                <span id="summary-shipping">Rs. 250.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Gift Wrapping</span>
+                                <span id="summary-wrapping">Rs. 0.00</span>
+                            </div>
+                            <div class="total-row grand-total">
+                                <span>Total</span>
+                                <span id="summary-total">Rs. 250.00</span>
+                            </div>
+                        </div>
+
+                        <div class="order-notes">
+                            <p>📦 Free shipping on orders over Rs. 5000</p>
+                            <p>🔄 7-day return policy</p>
+                            <p>🔒 Secure payment</p>
+                        </div>
+
+                        <div class="terms-agreement">
+                            <label>
+                                <input type="checkbox" id="terms-agreement" required>
+                                I agree to the <a href="terms.html">Terms of Service</a> and confirm that I have read
+                                the <a href="privacy.html">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <button id="place-order-btn" class="btn primary" disabled>Place Order</button>
+
+                        <div class="secure-checkout">
+                            <span>🔒 Secure Checkout</span>
+                            <div class="payment-icons">
+                                <span>💳</span>
+                                <span>🏦</span>
+                                <span>📱</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content success-modal">
+            <div class="success-icon">✓</div>
+            <h2>Order Placed Successfully!</h2>
+            <p>Thank you for your order. Your order number is <strong id="order-number">#0000</strong></p>
+            <p>We'll send you an email confirmation shortly.</p>
+            <div class="success-actions">
+                <a href="my-orders.html" class="btn primary">View Order</a>
+                <a href="products.html" class="btn outline">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-component"></div>
+
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- Component Loader Script -->
+    <script>
+        async function loadComponent(componentId, componentPath) {
+            try {
+                const response = await fetch(componentPath);
+                if (!response.ok) throw new Error(`Failed to load ${componentPath}`);
+                const html = await response.text();
+                document.getElementById(componentId).innerHTML = html;
+
+                if (componentId === 'header-component' && window.auth) {
+                    auth.updateHeaderUI();
+                    const logoutBtn = document.getElementById('logout-btn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            if (window.auth && typeof window.auth.logout === 'function') {
+                                window.auth.logout();
+                            } else if (typeof logout === 'function') {
+                                logout();
+                            }
+                        });
+                    }
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount();
+                    }
+                }
+            } catch (error) {
+                console.error(`Error loading component ${componentPath}:`, error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            await loadComponent('header-component', 'components/header.html');
+            await loadComponent('footer-component', 'components/footer.html');
+        });
+    </script>
+
+    <script src="assets/js/checkout.js"></script>
+</body>
+
+</html>
